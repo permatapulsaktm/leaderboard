@@ -29,6 +29,7 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-gray-50">
     <!-- Header -->
@@ -331,21 +332,66 @@
             return '#' + rank;
         }
       
-          const GAS_API_URL = 'REPLACE_WITH_GAS_API_URL';
+        const SUPABASE_URL = 'https://xglnieckrczmxgcrdocn.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnbG5pZWNrcmN6bXhnY3Jkb2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDU5MDAsImV4cCI6MjA5NDE4MTkwMH0.TPjnG05-AiInXB8y3yltEZA46Gdg5ikrt79Ilad8_Mg';
+        
+        const supabaseClient = supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
           
-          function loadData() {
-              document.getElementById('loadingState').classList.remove('hidden');
-              document.getElementById('errorState').classList.add('hidden');
-              document.getElementById('statsSection').classList.add('hidden');
-              document.getElementById('tableSection').classList.add('hidden');
-              document.getElementById('statsSectionProduk').classList.add('hidden');
-              document.getElementById('tableSectionProduk').classList.add('hidden');
-          
-              fetch(GAS_API_URL + '?action=getData')
-                  .then(response => response.json())
-                  .then(data => onSuccess(data))
-                  .catch(error => onFailure(error));
-          }
+          async function loadData() {
+            try {
+                document.getElementById('loadingState').classList.remove('hidden');
+                document.getElementById('errorState').classList.add('hidden');
+        
+                document.getElementById('statsSection').classList.add('hidden');
+                document.getElementById('tableSection').classList.add('hidden');
+        
+                document.getElementById('statsSectionProduk').classList.add('hidden');
+                document.getElementById('tableSectionProduk').classList.add('hidden');
+        
+                // TOP AGEN
+                const { data: agents, error: agenError } = await supabaseClient
+                    .from('view_top_agen')
+                    .select('*')
+                    .order('rank', { ascending: true });
+        
+                if (agenError) throw agenError;
+        
+                // TOP PRODUK
+                const { data: produks, error: produkError } = await supabaseClient
+                    .from('view_top_produk')
+                    .select('*')
+                    .order('rank', { ascending: true });
+        
+                if (produkError) throw produkError;
+        
+                // Statistik agen
+                const totalTransaksi = agents.reduce(
+                    (sum, item) => sum + (parseInt(item.total_trx) || 0),
+                    0
+                );
+        
+                const result = {
+                    serverTime: new Date().toLocaleString('id-ID'),
+                    localTime: new Date().toLocaleString('id-ID'),
+        
+                    totalAgen: agents.length,
+                    totalTransaksi,
+                    statusTetap: 0,
+                    needReview: 0,
+        
+                    agents,
+                    produks
+                };
+        
+                onSuccess(result);
+        
+            } catch (error) {
+                onFailure(error);
+            }
+        }
 
         function renderAgenData(result) {
             // Update times from sheet
