@@ -509,16 +509,6 @@
         loadData();
         document.getElementById('searchAgen').addEventListener('input',   () => searchTable('agen'));
         document.getElementById('searchProduk').addEventListener('input', () => searchTable('produk'));
-
-        // Auto-refresh setiap 60 detik
-        let countdown = 60;
-        setInterval(() => {
-            countdown--;
-            if (countdown <= 0) {
-                countdown = 60;
-                loadData();
-            }
-        }, 1000);
     });
 </script>
 
