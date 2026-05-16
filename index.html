@@ -3,535 +3,540 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Top Agen & Produk</title>
+    <meta name="description" content="Dashboard transaksi top agen & produk Permata Pulsa secara real-time.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Top Agen Permata Pulsa">
+    <meta property="og:description" content="Monitoring transaksi top agen & produk secara real-time.">
+    <meta property="og:image" content="https://permatatech.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Permata Pulsa">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Top Agen Permata Pulsa">
+    <meta name="twitter:description" content="Monitoring transaksi top agen & produk secara real-time.">
+    <title>Top Agen & Produk</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .ph { font-size: 1.5rem; line-height: 1; }
+        .ph-lg { font-size: 2rem; line-height: 1; }
+        .ph-xl { font-size: 2.5rem; line-height: 1; }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-        .fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e1b4b 0%, #4338ca 60%, #6d28d9 100%);
+            position: sticky;
+            top: 0;
+            z-index: 999;
         }
-        .card-hover {
-            transition: all 0.3s ease;
+
+        .card-hover { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        @media (hover: hover) {
+            .card-hover:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 20px 30px -8px rgba(99,102,241,0.2);
+            }
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+        .tab-btn {
+            transition: all 0.2s ease;
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 10px 18px;
+            font-size: 0.875rem;
         }
         .tab-btn.active {
-            background-color: white;
-            color: #667eea;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            background: white;
+            color: #4338ca;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        }
+        .tab-btn:not(.active) {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+        .tab-btn:not(.active):hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Stat cards */
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        @media (max-width: 640px) {
+            .stat-card { padding: 12px; border-radius: 12px; }
+            .stat-card p.text-2xl { font-size: 1.25rem; }
+            .stat-card p.text-xs { font-size: 0.65rem; }
+            .ph-lg { font-size: 1.4rem; }
+        }
+
+        /* Table */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table thead th {
+            background: #f8f7ff;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #6b7280;
+            white-space: nowrap;
+        }
+        .data-table thead th.center { text-align: center; }
+        .data-table tbody tr {
+            border-bottom: 1px solid #f3f4f6;
+            transition: background 0.15s;
+        }
+        .data-table tbody tr:hover { background: #faf9ff; }
+        .data-table tbody td {
+            padding: 14px 16px;
+            font-size: 0.875rem;
+            vertical-align: middle;
+        }
+        .data-table tbody td.center { text-align: center; }
+
+        /* Mobile product cards */
+        .prod-card {
+            background: #faf9ff;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin: 8px 12px;
+            border: 1px solid #ede9fe;
+        }
+
+
+
+        /* Spinner */
+        .spinner {
+            width: 44px; height: 44px;
+            border: 3px solid #e0e7ff;
+            border-top-color: #4338ca;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .badge {
+            display: inline-flex; align-items: center;
+            padding: 4px 10px; border-radius: 999px;
+            font-size: 0.75rem; font-weight: 600;
+        }
+        .badge-green  { background: #dcfce7; color: #166534; }
+        .badge-yellow { background: #fef9c3; color: #854d0e; }
+        .badge-red    { background: #fee2e2; color: #991b1b; }
+        .badge-gray   { background: #f3f4f6; color: #374151; }
+
+        .search-wrap {
+            position: relative;
+            width: 100%;
+        }
+        .search-wrap input {
+            width: 100%;
+            padding: 9px 12px 9px 36px;
+            border: 1.5px solid #e0e7ff;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.2s;
+            background: #faf9ff;
+        }
+        .search-wrap input:focus { border-color: #6d28d9; }
+        .search-wrap .ico {
+            position: absolute; left: 10px; top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.875rem;
+            pointer-events: none;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-gray-50">
-    <!-- Header -->
-    <div class="gradient-bg text-white py-8 px-4 shadow-lg">
-        <div class="max-w-7xl mx-auto">
-            <h1 class="text-4xl font-bold mb-2">📊 Dashboard Top Agen Permata Pulsa</h1>
-            <p class="text-purple-100">Monitoring Transaksi Real-time</p>
-            
-            <!-- Navigation Tabs -->
-            <div class="mt-6 mb-4 flex items-center gap-4 flex-wrap">
-                <div class="flex gap-2">
-                    <button onclick="switchTab('agen')" id="btnAgen" class="tab-btn active bg-white text-purple-600 px-6 py-2 rounded-lg font-semibold transition-all shadow-md">
-                        👥 Top Agen
-                    </button>
-                    <button onclick="switchTab('produk')" id="btnProduk" class="tab-btn bg-white bg-opacity-20 hover:bg-opacity-30 px-6 py-2 rounded-lg font-semibold transition-all">
-                        📦 Top Produk
-                    </button>
-                </div>
-                <div class="flex-1"></div>
-                <div id="serverTime" class="bg-white bg-opacity-20 px-4 py-2 rounded-lg backdrop-blur-sm">
-                    <span class="text-sm">🕐 Waktu Server: <span class="font-semibold" id="timeDisplay">--</span></span>
-                </div>
-                <div id="localTime" class="bg-white bg-opacity-20 px-4 py-2 rounded-lg backdrop-blur-sm">
-                    <span class="text-sm">📍 Waktu Lokal: <span class="font-semibold" id="localTimeDisplay">--</span></span>
-                </div>
-                <button onclick="loadData()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg backdrop-blur-sm transition-all">
-                    🔄 Refresh
-                </button>
-            </div>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<div class="gradient-bg text-white py-5 px-4 shadow-lg">
+    <div class="max-w-5xl mx-auto flex items-center gap-3">
+        <!-- Logo -->
+        <a href="https://permatatech.com">
+            <img src="/favicon.svg" alt="Permata Pulsa" class="h-9 w-9 rounded-xl">
+        </a>
+        <!-- Title -->
+        <div>
+            <h1 class="text-xl md:text-3xl font-extrabold leading-tight">
+                <i class="ph-duotone ph-chart-bar ph-lg align-middle mr-2"></i>Top Agen Bavovoa
+            </h1>
+            <p class="text-indigo-200 text-sm mt-0.5">Ranking Real-time Seluruh Downline Loket Permata Pulsa</p>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div class="max-w-5xl mx-auto px-3 py-5 pb-24">
+
+    <!-- STATS: Agen -->
+    <div id="statsSection" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5 hidden">
+        <div class="stat-card card-hover fade-in">
+            <p class="text-gray-500 text-xs font-medium">Agen Aktif</p>
+            <p id="totalAgen" class="text-2xl font-extrabold text-emerald-600 mt-1">0</p>
+            <i class="ph-duotone ph-users ph-lg text-emerald-500"></i>
+        </div>
+        <div class="stat-card card-hover fade-in">
+            <p class="text-gray-500 text-xs font-medium">Total Transaksi</p>
+            <p id="totalTransaksi" class="text-2xl font-extrabold text-blue-600 mt-1">0</p>
+            <i class="ph-duotone ph-trend-up ph-lg text-blue-500"></i>
+        </div>
+        <div class="stat-card card-hover fade-in">
+            <p class="text-gray-500 text-xs font-medium">Bertahan</p>
+            <p id="statusTetap" class="text-2xl font-extrabold text-indigo-600 mt-1">0</p>
+            <i class="ph-duotone ph-check-circle ph-lg text-indigo-500"></i>
+        </div>
+        <div class="stat-card card-hover fade-in">
+            <p class="text-gray-500 text-xs font-medium">Bersaing</p>
+            <p id="needReview" class="text-2xl font-extrabold text-orange-500 mt-1">0</p>
+            <i class="ph-duotone ph-warning ph-lg text-orange-500"></i>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 py-6">
-        <!-- Statistics Cards for Agen -->
-        <div id="statsSection" class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6 hidden">
-            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Agen Aktif</p>
-                        <p id="totalAgen" class="text-3xl font-bold text-green-600 mt-2">0</p>
-                    </div>
-                    <div class="bg-green-100 p-3 rounded-full">
-                        <span class="text-3xl">👥</span>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Transaksi</p>
-                        <p id="totalTransaksi" class="text-3xl font-bold text-blue-600 mt-2">0</p>
-                    </div>
-                    <div class="bg-blue-100 p-3 rounded-full">
-                        <span class="text-3xl">📈</span>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Status Tetap</p>
-                        <p id="statusTetap" class="text-3xl font-bold text-purple-600 mt-2">0</p>
-                    </div>
-                    <div class="bg-purple-100 p-3 rounded-full">
-                        <span class="text-3xl">✅</span>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Status Berubah</p>
-                        <p id="needReview" class="text-3xl font-bold text-orange-600 mt-2">0</p>
-                    </div>
-                    <div class="bg-orange-100 p-3 rounded-full">
-                        <span class="text-3xl">⚠️</span>
-                    </div>
-                </div>
-            </div>
+    <!-- STATS: Produk -->
+    <div id="statsSectionProduk" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5 hidden">
+        <div class="stat-card card-hover fade-in">
+            <p class="text-gray-500 text-xs font-medium">Produk Aktif</p>
+            <p id="totalProduk" class="text-2xl font-extrabold text-emerald-600 mt-1">0</p>
+            <i class="ph-duotone ph-package ph-lg text-emerald-500"></i>
         </div>
-
-        <!-- Statistics Cards for Produk -->
-        <div id="statsSectionProduk" class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6 hidden">
-            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Produk Aktif</p>
-                        <p id="totalProduk" class="text-3xl font-bold text-green-600 mt-2">0</p>
-                    </div>
-                    <div class="bg-green-100 p-3 rounded-full">
-                        <span class="text-3xl">📦</span>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Transaksi</p>
-                        <p id="totalTransaksiProduk" class="text-3xl font-bold text-blue-600 mt-2">0</p>
-                    </div>
-                    <div class="bg-blue-100 p-3 rounded-full">
-                        <span class="text-3xl">📈</span>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Agen</p>
-                        <p id="totalAgenProduk" class="text-3xl font-bold text-purple-600 mt-2">0</p>
-                    </div>
-                    <div class="bg-purple-100 p-3 rounded-full">
-                        <span class="text-3xl">👥</span>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 card-hover fade-in">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium">Avg TRX/Produk</p>
-                        <p id="avgTrxProduk" class="text-3xl font-bold text-orange-600 mt-2">0</p>
-                    </div>
-                    <div class="bg-orange-100 p-3 rounded-full">
-                        <span class="text-3xl">📊</span>
-                    </div>
-                </div>
-            </div>
+        <div class="stat-card card-hover fade-in">
+            <p class="text-gray-500 text-xs font-medium">Transaksi</p>
+            <p id="totalTransaksiProduk" class="text-2xl font-extrabold text-blue-600 mt-1">0</p>
+            <i class="ph-duotone ph-trend-up ph-lg text-blue-500"></i>
         </div>
-
-        <!-- Data Table for Agen -->
-        <div id="tableSection" class="bg-white rounded-lg shadow-md overflow-hidden hidden">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-2xl font-bold text-gray-800">🏆 Top Performing Agen</h2>
-                    <div class="relative w-64">
-                        <input 
-                            type="text" 
-                            id="searchAgen" 
-                            placeholder="Cari agen..." 
-                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        />
-                        <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
-                    </div>
-                </div>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Rank</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nama Agen</th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Transaksi</th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody" class="divide-y divide-gray-200">
-                        <!-- Data akan dimuat di sini -->
-                    </tbody>
-                </table>
-            </div>
+        <div class="stat-card card-hover fade-in">
+            <p class="text-gray-500 text-xs font-medium">Total Agen</p>
+            <p id="totalAgenProduk" class="text-2xl font-extrabold text-indigo-600 mt-1">0</p>
+            <i class="ph-duotone ph-users ph-lg text-emerald-500"></i>
         </div>
-
-        <!-- Data Table for Produk -->
-        <div id="tableSectionProduk" class="bg-white rounded-lg shadow-md overflow-hidden hidden">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-2xl font-bold text-gray-800">📦 Top Produk Terlaris</h2>
-                    <div class="relative w-64">
-                        <input 
-                            type="text" 
-                            id="searchProduk" 
-                            placeholder="Cari produk atau agen..." 
-                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        />
-                        <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
-                    </div>
-                </div>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Rank</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Produk</th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Terjual</th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Persentase</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Agen</th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Penjualan</th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Persentase</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBodyProduk" class="divide-y divide-gray-200">
-                        <!-- Data akan dimuat di sini -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Loading State -->
-        <div id="loadingState" class="text-center py-12">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-            <p class="mt-4 text-gray-600">Memuat data...</p>
-        </div>
-
-        <!-- Error State -->
-        <div id="errorState" class="hidden text-center py-12">
-            <span class="text-6xl">❌</span>
-            <h3 class="mt-4 text-xl font-semibold text-gray-700">Terjadi Kesalahan</h3>
-            <p id="errorMessage" class="mt-2 text-gray-500"></p>
-            <button onclick="loadData()" class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-all">
-                🔄 Coba Lagi
-            </button>
+        <div class="stat-card card-hover fade-in">
+            <p class="text-gray-500 text-xs font-medium">Avg TRX/Produk</p>
+            <p id="avgTrxProduk" class="text-2xl font-extrabold text-orange-500 mt-1">0</p>
+            <i class="ph-duotone ph-chart-pie-slice ph-lg text-orange-500"></i>
         </div>
     </div>
 
-    <script>
-        let currentTab = 'agen';
-        let cachedData = null;
+    <!-- CARDS: Agen -->
+    <div id="tableSection" class="bg-white rounded-2xl shadow-sm overflow-hidden hidden">
+        <div class="p-4 md:p-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center gap-3">
+            <h2 class="text-lg font-extrabold text-gray-800 flex-1"><i class="ph-duotone ph-trophy align-middle mr-2 text-indigo-500"></i>Top Agen</h2>
+            <div class="search-wrap sm:w-56">
+                <i class="ph-duotone ph-magnifying-glass ico" style="font-size:0.9rem"></i>
+                <input type="text" id="searchAgen" placeholder="Cari agen...">
+            </div>
+        </div>
+        <div id="tableBody" class="py-2"></div>
+    </div>
 
-        function searchTable(type) {
-            const searchInput = type === 'agen' ? 
-                document.getElementById('searchAgen').value.toLowerCase() : 
-                document.getElementById('searchProduk').value.toLowerCase();
+    <!-- TABLE: Produk (desktop) + Cards (mobile) -->
+    <div id="tableSectionProduk" class="bg-white rounded-2xl shadow-sm overflow-hidden hidden">
+        <div class="p-4 md:p-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center gap-3">
+            <h2 class="text-lg font-extrabold text-gray-800 flex-1"><i class="ph-duotone ph-storefront align-middle mr-2 text-indigo-500"></i>Produk Terlaris</h2>
+            <div class="search-wrap sm:w-56">
+                <i class="ph-duotone ph-magnifying-glass ico" style="font-size:0.9rem"></i>
+                <input type="text" id="searchProduk" placeholder="Cari produk atau agen...">
+            </div>
+        </div>
+
+        <!-- Desktop table -->
+        <div class="overflow-x-auto hidden sm:block">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width:60px">Rank</th>
+                        <th>Produk</th>
+                        <th class="center">Terjual</th>
+                        <th class="center">% Produk</th>
+                        <th>Agen</th>
+                        <th class="center">Penjualan</th>
+                        <th class="center">% Agen</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBodyProdukDesktop"></tbody>
+            </table>
+        </div>
+
+        <!-- Mobile cards -->
+        <div id="tableBodyProdukMobile" class="block sm:hidden py-2"></div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loadingState" class="flex flex-col items-center py-16">
+        <div class="spinner"></div>
+        <p class="mt-4 text-gray-500 text-sm font-medium">Memuat data...</p>
+    </div>
+
+    <!-- Error -->
+    <div id="errorState" class="hidden text-center py-16">
+        <i class="ph-duotone ph-x-circle ph-xl text-red-400"></i>
+        <h3 class="mt-4 text-lg font-bold text-gray-700">Terjadi Kesalahan</h3>
+        <p id="errorMessage" class="mt-2 text-gray-400 text-sm"></p>
+        <button onclick="loadData()" class="mt-5 bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-indigo-700 transition-all text-sm">
+            <i class="ph-duotone ph-arrow-clockwise align-middle mr-1"></i>Coba Lagi
+        </button>
+    </div>
+</div>
+
+<script>
+    let currentTab = 'agen';
+    let cachedData = null;
+
+    /* ── search ── */
+    function searchTable(type) {
+        const q = document.getElementById(type === 'agen' ? 'searchAgen' : 'searchProduk').value.toLowerCase();
+        if (type === 'agen') {
+            document.querySelectorAll('#tableBody .prod-card').forEach(el =>
+                el.parentElement.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none'
+            );
+        } else {
+            // desktop
+            document.querySelectorAll('#tableBodyProdukDesktop tr').forEach(r =>
+                r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'
+            );
+            // mobile
+            document.querySelectorAll('#tableBodyProdukMobile .prod-card').forEach(el =>
+                el.parentElement.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none'
+            );
+        }
+    }
+
+    /* ── tabs ── */
+    function switchTab(tab) {
+        currentTab = tab;
+
+        // Desktop header tabs
+        const btnA = document.getElementById('btnAgen');
+        const btnP = document.getElementById('btnProduk');
+        if (btnA) btnA.className = 'tab-btn' + (tab === 'agen'   ? ' active' : '');
+        if (btnP) btnP.className = 'tab-btn' + (tab === 'produk' ? ' active' : '');
+
+        // Bottom nav tabs
+        const activeBottom   = 'flex-1 flex flex-col items-center justify-center gap-1 py-3 text-indigo-600 border-t-2 border-indigo-600 transition-all';
+        const inactiveBottom = 'flex-1 flex flex-col items-center justify-center gap-1 py-3 text-gray-400 border-t-2 border-transparent transition-all';
+        const btnAB = document.getElementById('btnAgenBottom');
+        const btnPB = document.getElementById('btnProdukBottom');
+        if (btnAB) btnAB.className = tab === 'agen'   ? activeBottom : inactiveBottom;
+        if (btnPB) btnPB.className = tab === 'produk' ? activeBottom : inactiveBottom;
+
+        ['statsSection','tableSection'].forEach(id =>
+            document.getElementById(id).classList.toggle('hidden', tab !== 'agen'));
+        ['statsSectionProduk','tableSectionProduk'].forEach(id =>
+            document.getElementById(id).classList.toggle('hidden', tab !== 'produk'));
+
+        if (cachedData) tab === 'agen' ? renderAgenData(cachedData) : renderProdukData(cachedData);
+    }
+
+    /* ── helpers ── */
+    function getStatusBadge(status) {
+        const s = (status || '').toString().toLowerCase();
+        if (s.includes('tetap')) return '<span class="badge badge-green"><i class="ph-duotone ph-check-circle"></i> Tetap</span>';
+        if (s.includes('turun')) return '<span class="badge badge-yellow"><i class="ph-duotone ph-trend-down"></i> Turun</span>';
+        if (s.includes('naik'))  return '<span class="badge badge-red"><i class="ph-duotone ph-trend-up"></i> Naik</span>';
+        return `<span class="badge badge-gray">${status}</span>`;
+    }
+
+    function getRankBadge(rank) {
+        if (rank === 1) return '🥇';
+        if (rank === 2) return '🥈';
+        if (rank === 3) return '🥉';
+        return `<span class="font-bold text-gray-500">#${rank}</span>`;
+    }
+
+    function fmtPct(value) {
+        if (typeof value === 'string' && value.includes('%')) return value;
+        const n = parseFloat(value);
+        return isNaN(n) ? (value || '0%') : (n * 100).toFixed(2) + '%';
+    }
+
+    function fmtNum(v) { return parseInt(v || 0).toLocaleString('id-ID'); }
+
+    /* ── Supabase ── */
+    const SUPABASE_URL      = 'https://xglnieckrczmxgcrdocn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnbG5pZWNrcmN6bXhnY3Jkb2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDU5MDAsImV4cCI6MjA5NDE4MTkwMH0.TPjnG05-AiInXB8y3yltEZA46Gdg5ikrt79Ilad8_Mg';
+    const supabaseClient    = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function loadData() {
+        try {
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            ['statsSection','tableSection','statsSectionProduk','tableSectionProduk'].forEach(id =>
+                document.getElementById(id).classList.add('hidden'));
+
+            const [
+                { data: agents,  error: e1 },
+                { data: produks, error: e2 },
+                { data: stats,   error: e3 }
+            ] = await Promise.all([
+                supabaseClient.from('view_top_agen').select('*').order('rank', { ascending: true }),
+                supabaseClient.from('view_top_produk').select('*').order('rank', { ascending: true }),
+                supabaseClient.from('view_dashboard_stats').select('*').limit(1).single()
+            ]);
+            if (e1) throw e1;
+            if (e2) throw e2;
+            // e3 diabaikan — fallback ke hitung manual kalau view tidak ada
             
-            const tableBody = type === 'agen' ? 
-                document.getElementById('tableBody') : 
-                document.getElementById('tableBodyProduk');
-            
-            const rows = tableBody.getElementsByTagName('tr');
-            
-            for (let i = 0; i < rows.length; i++) {
-                const row = rows[i];
-                const text = row.textContent.toLowerCase();
-                
-                if (text.includes(searchInput)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+            // Utamakan data dari view_dashboard_stats, fallback ke hitung manual
+            const totalAgen      = stats?.total_agen      ?? new Set(agents.map(a => a.kode_agen).filter(Boolean)).size;
+            const totalTransaksi = stats?.total_transaksi ?? agents.reduce((s, i) => s + (parseInt(i.count) || 0), 0);
+            const statusTetap    = stats?.status_tetap    ?? agents.filter(a => (a.status||'').toLowerCase().includes('tetap')).length;
+            const needReview     = stats?.need_review     ?? (agents.length - statusTetap);
+
+            onSuccess({ totalAgen, totalTransaksi, statusTetap, needReview, agents, produks });
+        } catch (err) {
+            onFailure(err);
+        }
+    }
+
+    /* ── render agen ── */
+    function renderAgenData(r) {
+        document.getElementById('totalAgen').textContent        = r.totalAgen;
+        document.getElementById('totalTransaksi').textContent   = r.totalTransaksi.toLocaleString('id-ID');
+        document.getElementById('statusTetap').textContent      = r.statusTetap;
+        document.getElementById('needReview').textContent       = r.needReview;
+
+        document.getElementById('tableBody').innerHTML = r.agents.map(item => `
+            <div>
+                <div class="prod-card">
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="min-w-0 flex-1">
+                            <div class="text-base font-extrabold text-gray-900 leading-tight">
+                                <span class="mr-1">${getRankBadge(item.rank)}</span>${item.agen}
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">${getStatusBadge(item.status)}</div>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <div class="font-extrabold text-indigo-600 text-lg">${fmtNum(item.count)}</div>
+                            <div class="text-xs text-gray-400">transaksi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    /* ── render produk ── */
+    function renderProdukData(r) {
+
+        const totalTrx   = r.produks.reduce((s, p) => s + (parseInt(p.trx)   || 0), 0);
+        const uniqueAgen = new Set(r.produks.map(p => p.agen).filter(Boolean)).size;
+
+        document.getElementById('totalProduk').textContent          = r.produks.length;
+        document.getElementById('totalTransaksiProduk').textContent = totalTrx.toLocaleString('id-ID');
+        document.getElementById('totalAgenProduk').textContent      = uniqueAgen;
+        document.getElementById('avgTrxProduk').textContent         = r.produks.length
+            ? Math.round(totalTrx / r.produks.length).toLocaleString('id-ID') : 0;
+
+        /* desktop rows */
+        document.getElementById('tableBodyProdukDesktop').innerHTML = r.produks.map(item => `
+            <tr>
+                <td><span class="text-xl">${getRankBadge(item.rank)}</span></td>
+                <td class="font-semibold text-gray-900">${item.produk}</td>
+                <td class="center font-extrabold text-indigo-600">${fmtNum(item.count)}</td>
+                <td class="center text-gray-500">${fmtPct(item.persen)}</td>
+                <td class="text-gray-600">${item.agen || '-'}</td>
+                <td class="center font-semibold">${fmtNum(item.trx)}</td>
+                <td class="center text-gray-500">${fmtPct(item.persenTrx)}</td>
+            </tr>
+        `).join('');
+
+        /* mobile cards */
+        document.getElementById('tableBodyProdukMobile').innerHTML = r.produks.map(item => `
+            <div>
+                <div class="prod-card">
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="min-w-0 flex-1">
+                            <div class="text-base font-extrabold text-gray-900 leading-tight">
+                                <span class="mr-1">${getRankBadge(item.rank)}</span>${item.produk}
+                            </div>
+                            <div class="text-xs text-gray-500 mt-0.5 truncate">👤 ${item.agen || '-'}</div>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <div class="font-extrabold text-indigo-600 text-lg">${fmtNum(item.count)}</div>
+                            <div class="text-xs text-gray-400">transaksi</div>
+                        </div>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-indigo-50 flex gap-4 text-xs text-gray-500">
+                        <span><i class='ph-duotone ph-package' style='font-size:0.85rem'></i> % Produk: <strong class="text-gray-700">${fmtPct(item.persen)}</strong></span>
+                        <span><i class='ph-duotone ph-coins' style='font-size:0.85rem'></i> Penjualan: <strong class="text-gray-700">${fmtNum(item.trx)}</strong></span>
+                        <span><i class='ph-duotone ph-users' style='font-size:0.85rem'></i> % Agen: <strong class="text-gray-700">${fmtPct(item.persenTrx)}</strong></span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    /* ── lifecycle ── */
+    function onSuccess(result) {
+        if (result.error) { showError(result.error); return; }
+        cachedData = result;
+        document.getElementById('loadingState').classList.add('hidden');
+        if (currentTab === 'agen') {
+            renderAgenData(result);
+            document.getElementById('statsSection').classList.remove('hidden');
+            document.getElementById('tableSection').classList.remove('hidden');
+        } else {
+            renderProdukData(result);
+            document.getElementById('statsSectionProduk').classList.remove('hidden');
+            document.getElementById('tableSectionProduk').classList.remove('hidden');
+        }
+    }
+
+    function onFailure(err) { showError('Gagal memuat data: ' + (err.message || err)); }
+
+    function showError(msg) {
+        document.getElementById('loadingState').classList.add('hidden');
+        document.getElementById('errorState').classList.remove('hidden');
+        document.getElementById('errorMessage').textContent = msg;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadData();
+        document.getElementById('searchAgen').addEventListener('input',   () => searchTable('agen'));
+        document.getElementById('searchProduk').addEventListener('input', () => searchTable('produk'));
+
+        // Auto-refresh setiap 60 detik
+        let countdown = 60;
+        setInterval(() => {
+            countdown--;
+            if (countdown <= 0) {
+                countdown = 60;
+                loadData();
             }
-        }
+        }, 1000);
+    });
+</script>
 
-        function switchTab(tab) {
-            currentTab = tab;
-            
-            // Update button styles
-            document.getElementById('btnAgen').className = 'tab-btn ' + 
-                (tab === 'agen' ? 'active bg-white text-purple-600 shadow-md' : 'bg-white bg-opacity-20 hover:bg-opacity-30') + 
-                ' px-6 py-2 rounded-lg font-semibold transition-all';
-            document.getElementById('btnProduk').className = 'tab-btn ' + 
-                (tab === 'produk' ? 'active bg-white text-purple-600 shadow-md' : 'bg-white bg-opacity-20 hover:bg-opacity-30') + 
-                ' px-6 py-2 rounded-lg font-semibold transition-all';
+<!-- ══════════════ BOTTOM NAV ══════════════ -->
+<div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
+    <div class="flex">
+        <button onclick="switchTab('agen')" id="btnAgenBottom"
+            class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-indigo-600 border-t-2 border-indigo-600 transition-all">
+            <i class="ph-duotone ph-users" style="font-size:1.4rem"></i>
+            <span class="text-xs font-semibold">Top Agen</span>
+        </button>
+        <button onclick="switchTab('produk')" id="btnProdukBottom"
+            class="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-gray-400 border-t-2 border-transparent transition-all">
+            <i class="ph-duotone ph-package" style="font-size:1.4rem"></i>
+            <span class="text-xs font-semibold">Top Produk</span>
+        </button>
+    </div>
+</div>
 
-            // Show/hide sections
-            if (tab === 'agen') {
-                document.getElementById('statsSection').classList.remove('hidden');
-                document.getElementById('tableSection').classList.remove('hidden');
-                document.getElementById('statsSectionProduk').classList.add('hidden');
-                document.getElementById('tableSectionProduk').classList.add('hidden');
-            } else {
-                document.getElementById('statsSection').classList.add('hidden');
-                document.getElementById('tableSection').classList.add('hidden');
-                document.getElementById('statsSectionProduk').classList.remove('hidden');
-                document.getElementById('tableSectionProduk').classList.remove('hidden');
-            }
-
-            // Render data if already loaded
-            if (cachedData) {
-                if (tab === 'agen') {
-                    renderAgenData(cachedData);
-                } else {
-                    renderProdukData(cachedData);
-                }
-            }
-        }
-
-        function getStatusBadge(status) {
-            const statusStr = status.toString();
-            const statusLower = statusStr.toLowerCase();
-            
-            // Remove emoji and get clean status text
-            const cleanStatus = statusStr.replace(/[^\w\s]/gi, '').trim().toLowerCase();
-            
-            if (cleanStatus.includes('tetap') || statusLower.includes('tetap')) {
-                return '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">✅ Tetap</span>';
-            } else if (cleanStatus.includes('turun') || statusLower.includes('turun')) {
-                return '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-800">⚠️ Turun</span>';
-            } else if (cleanStatus.includes('naik') || statusLower.includes('naik')) {
-                return '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800">🔴 Naik</span>';
-            } else {
-                return '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-800">' + statusStr + '</span>';
-            }
-        }
-
-        function getRankBadge(rank) {
-            if (rank === 1) return '🥇';
-            if (rank === 2) return '🥈';
-            if (rank === 3) return '🥉';
-            return '#' + rank;
-        }
-      
-        const SUPABASE_URL = 'https://xglnieckrczmxgcrdocn.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnbG5pZWNrcmN6bXhnY3Jkb2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDU5MDAsImV4cCI6MjA5NDE4MTkwMH0.TPjnG05-AiInXB8y3yltEZA46Gdg5ikrt79Ilad8_Mg';
-        
-        const supabaseClient = supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY
-        );
-          
-          async function loadData() {
-            try {
-                document.getElementById('loadingState').classList.remove('hidden');
-                document.getElementById('errorState').classList.add('hidden');
-        
-                document.getElementById('statsSection').classList.add('hidden');
-                document.getElementById('tableSection').classList.add('hidden');
-        
-                document.getElementById('statsSectionProduk').classList.add('hidden');
-                document.getElementById('tableSectionProduk').classList.add('hidden');
-        
-                // TOP AGEN
-                const { data: agents, error: agenError } = await supabaseClient
-                    .from('view_top_agen')
-                    .select('*')
-                    .order('rank', { ascending: true });
-        
-                if (agenError) throw agenError;
-        
-                // TOP PRODUK
-                const { data: produks, error: produkError } = await supabaseClient
-                    .from('view_top_produk')
-                    .select('*')
-                    .order('rank', { ascending: true });
-        
-                if (produkError) throw produkError;
-        
-                // Statistik agen
-                const totalTransaksi = agents.reduce(
-                    (sum, item) => sum + (parseInt(item.total_trx) || 0),
-                    0
-                );
-        
-                const result = {
-                    serverTime: new Date().toLocaleString('id-ID'),
-                    localTime: new Date().toLocaleString('id-ID'),
-        
-                    totalAgen: agents.length,
-                    totalTransaksi,
-                    statusTetap: 0,
-                    needReview: 0,
-        
-                    agents,
-                    produks
-                };
-        
-                onSuccess(result);
-        
-            } catch (error) {
-                onFailure(error);
-            }
-        }
-
-        function renderAgenData(result) {
-            // Update times from sheet
-            document.getElementById('timeDisplay').textContent = result.serverTime || '--';
-            document.getElementById('localTimeDisplay').textContent = result.localTime || '--';
-
-            // Update statistics
-            document.getElementById('totalAgen').textContent = result.totalAgen;
-            document.getElementById('totalTransaksi').textContent = result.totalTransaksi.toLocaleString('id-ID');
-            document.getElementById('statusTetap').textContent = result.statusTetap;
-            document.getElementById('needReview').textContent = result.needReview;
-
-            // Populate table
-            const tableBody = document.getElementById('tableBody');
-            tableBody.innerHTML = result.agents.map(item => `
-                <tr class="hover:bg-gray-50 transition-colors">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="text-2xl font-bold">${getRankBadge(item.rank)}</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="font-semibold text-gray-900">${item.agen}</div>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        <span class="text-lg font-bold text-indigo-600">${parseInt(item.count).toLocaleString('id-ID')}</span>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        ${getStatusBadge(item.status)}
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function formatPercentage(value) {
-            // Jika sudah string dengan %, return as is
-            if (typeof value === 'string' && value.includes('%')) {
-                return value;
-            }
-            
-            // Jika angka desimal (0.0828), convert ke persen
-            const numValue = parseFloat(value);
-            if (!isNaN(numValue)) {
-                return (numValue * 100).toFixed(2) + '%';
-            }
-            
-            return value || '0%';
-        }
-
-        function renderProdukData(result) {
-            // Update times from sheet
-            document.getElementById('timeDisplay').textContent = result.serverTime || '--';
-            document.getElementById('localTimeDisplay').textContent = result.localTime || '--';
-
-            // Update statistics for Produk
-            document.getElementById('totalProduk').textContent = result.produks.length;
-            
-            const totalTrx = result.produks.reduce((sum, p) => sum + (parseInt(p.trx) || 0), 0);
-            document.getElementById('totalTransaksiProduk').textContent = totalTrx.toLocaleString('id-ID');
-            
-            // Count unique agen
-            const uniqueAgen = new Set(result.produks.map(p => p.agen).filter(a => a)).size;
-            document.getElementById('totalAgenProduk').textContent = uniqueAgen;
-            
-            const avgTrx = result.produks.length > 0 ? Math.round(totalTrx / result.produks.length) : 0;
-            document.getElementById('avgTrxProduk').textContent = avgTrx.toLocaleString('id-ID');
-
-            // Populate table
-            const tableBodyProduk = document.getElementById('tableBodyProduk');
-            tableBodyProduk.innerHTML = result.produks.map(item => `
-                <tr class="hover:bg-gray-50 transition-colors">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="text-2xl font-bold">${getRankBadge(item.rank)}</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="font-semibold text-gray-900">${item.produk}</div>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        <span class="text-lg font-bold text-indigo-600">${parseInt(item.count).toLocaleString('id-ID')}</span>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        <span class="text-sm font-semibold text-gray-700">${formatPercentage(item.persen)}</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="text-sm text-gray-700">${item.agen || '-'}</div>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        <span class="text-sm font-bold text-blue-600">${parseInt(item.trx || 0).toLocaleString('id-ID')}</span>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        <span class="text-sm font-semibold text-gray-700">${formatPercentage(item.persenTrx)}</span>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function onSuccess(result) {
-            if (result.error) {
-                showError(result.error);
-                return;
-            }
-
-            cachedData = result;
-
-            // Render based on current tab
-            if (currentTab === 'agen') {
-                renderAgenData(result);
-                document.getElementById('statsSection').classList.remove('hidden');
-                document.getElementById('tableSection').classList.remove('hidden');
-            } else {
-                renderProdukData(result);
-                document.getElementById('statsSectionProduk').classList.remove('hidden');
-                document.getElementById('tableSectionProduk').classList.remove('hidden');
-            }
-
-            // Hide loading
-            document.getElementById('loadingState').classList.add('hidden');
-        }
-
-        function onFailure(error) {
-            showError('Gagal memuat data: ' + error.message);
-        }
-
-        function showError(message) {
-            document.getElementById('loadingState').classList.add('hidden');
-            document.getElementById('errorState').classList.remove('hidden');
-            document.getElementById('errorMessage').textContent = message;
-        }
-
-        // Auto-load data on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            
-            // Setup search event listeners
-            document.getElementById('searchAgen').addEventListener('input', function() {
-                searchTable('agen');
-            });
-            
-            document.getElementById('searchProduk').addEventListener('input', function() {
-                searchTable('produk');
-            });
-        });
-    </script>
 </body>
 </html>
